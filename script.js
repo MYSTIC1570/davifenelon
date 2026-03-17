@@ -8,13 +8,13 @@ const experienceData = {
     // Coloque a capa da música localmente na raiz do projeto.
     // Exemplo: capa-musica.jpeg
     cover: "capa-musica.jpeg",
+    // Adicione seu arquivo local de áudio, ex: "musica.mp3"
     audioSrc: ""
   },
   timeline: [
     {
       date: "14/02/2023",
       description: "Nosso primeiro encontro, com borboletas no estômago e sorrisos tímidos.",
-      // Use arquivos locais: img1.jpeg, img2.jpeg, img3.jpeg...
       photo: "img1.jpeg"
     },
     {
@@ -72,6 +72,7 @@ const playButton = document.getElementById("playButton");
 const playerHint = document.getElementById("playerHint");
 const poeticText = document.getElementById("poeticText");
 const restartButton = document.getElementById("restartButton");
+const cards = [...document.querySelectorAll(".card")];
 
 let currentScreen = 0;
 let quoteIndex = 0;
@@ -125,16 +126,18 @@ function renderExperience() {
 
 function goToScreen(index) {
   screens[currentScreen].classList.remove("active");
-  currentScreen = Math.min(index, screens.length - 1);
+  currentScreen = Math.min(Math.max(index, 0), screens.length - 1);
   screens[currentScreen].classList.add("active");
 }
 
 function setQuote() {
   quoteText.style.opacity = "0";
+  quoteText.style.transform = "translateY(6px)";
   setTimeout(() => {
     quoteText.textContent = `“${experienceData.messages[quoteIndex]}”`;
     quoteText.style.opacity = "1";
-  }, 150);
+    quoteText.style.transform = "translateY(0)";
+  }, 160);
 }
 
 function updateRelationshipCounter() {
@@ -150,6 +153,42 @@ function updatePersonalizedTexts() {
   const person = enteredName || experienceData.personNameFallback;
   welcomeText.textContent = `${person}, preparei algo especial para você ❤️`;
   finalTitle.textContent = `Obrigado por viver essa história comigo, ${person}.`;
+}
+
+function createClickBurst(x, y) {
+  const burst = document.createElement("span");
+  burst.className = "click-burst";
+  burst.style.left = `${x}px`;
+  burst.style.top = `${y}px`;
+  document.body.appendChild(burst);
+  setTimeout(() => burst.remove(), 520);
+}
+
+function attachInteractiveEffects() {
+  document.addEventListener("click", (event) => {
+    createClickBurst(event.clientX, event.clientY);
+  });
+
+  cards.forEach((card) => {
+    card.addEventListener("mousemove", (event) => {
+      if (window.innerWidth < 900) return;
+      const rect = card.getBoundingClientRect();
+      const px = (event.clientX - rect.left) / rect.width;
+      const py = (event.clientY - rect.top) / rect.height;
+      const rotateY = (px - 0.5) * 4;
+      const rotateX = (0.5 - py) * 3;
+      card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)";
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowRight") goToScreen(currentScreen + 1);
+    if (event.key === "ArrowLeft") goToScreen(currentScreen - 1);
+  });
 }
 
 nextButtons.forEach((btn) => {
@@ -168,7 +207,7 @@ nextButtons.forEach((btn) => {
 
 playButton.addEventListener("click", () => {
   if (!experienceData.music.audioSrc) {
-    playerHint.textContent = "Adicione um link de áudio em experienceData.music.audioSrc para tocar.";
+    playerHint.textContent = "Adicione seu arquivo em experienceData.music.audioSrc, por exemplo: musica.mp3";
     return;
   }
 
@@ -197,3 +236,4 @@ restartButton.addEventListener("click", () => {
 
 renderExperience();
 updatePersonalizedTexts();
+attachInteractiveEffects();
