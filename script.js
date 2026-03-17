@@ -1,14 +1,10 @@
 const experienceData = {
   personNameFallback: "Meu amor",
-  partnerName: "Amor",
   relationshipStartDate: "2023-02-14",
   music: {
     title: "Perfect",
     artist: "Ed Sheeran",
-    // Coloque a capa da música localmente na raiz do projeto.
-    // Exemplo: capa-musica.jpeg
     cover: "capa-musica.jpeg",
-    // Adicione seu arquivo local de áudio, ex: "musica.mp3"
     audioSrc: ""
   },
   timeline: [
@@ -34,25 +30,24 @@ const experienceData = {
     "Em cada capítulo, eu escolheria você de novo, mil vezes."
   ],
   gallery: [
-    {
-      caption: "Nós dois em nosso lugar favorito",
-      photo: "img4.jpeg"
-    },
-    {
-      caption: "Um pôr do sol, dois corações",
-      photo: "img5.jpeg"
-    },
-    {
-      caption: "Rindo da vida juntos",
-      photo: "img6.jpeg"
-    }
+    { caption: "Nós dois em nosso lugar favorito", photo: "img4.jpeg" },
+    { caption: "Um pôr do sol, dois corações", photo: "img5.jpeg" },
+    { caption: "Rindo da vida juntos", photo: "img6.jpeg" }
   ],
   poeticText: "O universo conspirou para nos unir ✨",
-  finalMessage:
-    "Obrigado por ser minha pessoa, meu lar e minha melhor escolha em todos os dias."
+  finalMessage: "Obrigado por ser minha pessoa, meu lar e minha melhor escolha em todos os dias."
 };
 
+const colorThemes = [
+  { bg1: "#0b0616", bg2: "#1f0633", bg3: "#25084a", a1: "#ff4fa8", a2: "#7e5bff", a3: "#35f2d0" },
+  { bg1: "#0f0712", bg2: "#2d0e22", bg3: "#3f122e", a1: "#ff6a3d", a2: "#ff2d9b", a3: "#ffe15a" },
+  { bg1: "#06131a", bg2: "#082735", bg3: "#0c3447", a1: "#2ee6ff", a2: "#4298ff", a3: "#83ffce" },
+  { bg1: "#110910", bg2: "#2a0f20", bg3: "#381531", a1: "#ff4c74", a2: "#b056ff", a3: "#62ffe3" },
+  { bg1: "#0d0f1b", bg2: "#1b1e38", bg3: "#2b2456", a1: "#7d7dff", a2: "#ff5db8", a3: "#60ffe7" }
+];
+
 const screens = [...document.querySelectorAll(".screen")];
+const cards = [...document.querySelectorAll(".card")];
 const nextButtons = [...document.querySelectorAll("[data-next]")];
 const nameInput = document.getElementById("nameInput");
 const welcomeText = document.getElementById("welcomeText");
@@ -72,10 +67,20 @@ const playButton = document.getElementById("playButton");
 const playerHint = document.getElementById("playerHint");
 const poeticText = document.getElementById("poeticText");
 const restartButton = document.getElementById("restartButton");
-const cards = [...document.querySelectorAll(".card")];
 
 let currentScreen = 0;
 let quoteIndex = 0;
+let isTurning = false;
+
+function applyRandomTheme() {
+  const theme = colorThemes[Math.floor(Math.random() * colorThemes.length)];
+  document.documentElement.style.setProperty("--bg-1", theme.bg1);
+  document.documentElement.style.setProperty("--bg-2", theme.bg2);
+  document.documentElement.style.setProperty("--bg-3", theme.bg3);
+  document.documentElement.style.setProperty("--accent-1", theme.a1);
+  document.documentElement.style.setProperty("--accent-2", theme.a2);
+  document.documentElement.style.setProperty("--accent-3", theme.a3);
+}
 
 function renderExperience() {
   musicCover.src = experienceData.music.cover;
@@ -91,16 +96,12 @@ function renderExperience() {
   timelineList.innerHTML = experienceData.timeline
     .map(
       (item) => `
-      <article class="timeline-item">
+      <article class="timeline-item animate__animated animate__fadeInUp">
         <div>
           <small>${item.date}</small>
           <p>${item.description}</p>
         </div>
-        ${
-          item.photo
-            ? `<img src="${item.photo}" alt="Momento de ${item.date}" onerror="this.style.display='none'" />`
-            : ""
-        }
+        ${item.photo ? `<img src="${item.photo}" alt="Momento de ${item.date}" onerror="this.style.display='none'" />` : ""}
       </article>
     `
     )
@@ -108,9 +109,9 @@ function renderExperience() {
 
   galleryGrid.innerHTML = experienceData.gallery
     .map((item, index) => {
-      const tilt = index % 2 === 0 ? "-1.5deg" : "1.8deg";
+      const tilt = index % 2 === 0 ? "-1.4deg" : "1.6deg";
       return `
-      <article class="photo-card" style="--tilt:${tilt}">
+      <article class="photo-card animate__animated animate__fadeIn" style="--tilt:${tilt}">
         <img src="${item.photo}" alt="${item.caption}" onerror="this.style.display='none'" />
         <p>${item.caption}</p>
       </article>
@@ -124,20 +125,45 @@ function renderExperience() {
   updateRelationshipCounter();
 }
 
+function animateScreenElements(screen) {
+  const nodes = screen.querySelectorAll("h1, h2, p, .btn, .ghost-btn, .music-player, .timeline-item, .photo-card, .quote");
+  nodes.forEach((node, idx) => {
+    node.classList.remove("animate__animated", "animate__fadeInUp", "animate__fadeIn", "animate__zoomIn");
+    void node.offsetWidth;
+    node.classList.add("animate__animated", idx % 3 === 0 ? "animate__fadeInUp" : idx % 3 === 1 ? "animate__fadeIn" : "animate__zoomIn");
+    node.style.setProperty("--animate-duration", `${0.45 + idx * 0.04}s`);
+  });
+}
+
 function goToScreen(index) {
-  screens[currentScreen].classList.remove("active");
-  currentScreen = Math.min(Math.max(index, 0), screens.length - 1);
-  screens[currentScreen].classList.add("active");
+  if (isTurning) return;
+  const target = Math.min(Math.max(index, 0), screens.length - 1);
+  if (target === currentScreen) return;
+
+  isTurning = true;
+  const current = screens[currentScreen];
+  const next = screens[target];
+
+  current.classList.add("turn-out");
+  next.classList.add("active", "turn-in");
+
+  setTimeout(() => {
+    current.classList.remove("active", "turn-out");
+    next.classList.remove("turn-in");
+    currentScreen = target;
+    animateScreenElements(next);
+    isTurning = false;
+  }, 790);
 }
 
 function setQuote() {
   quoteText.style.opacity = "0";
-  quoteText.style.transform = "translateY(6px)";
+  quoteText.style.transform = "translateY(8px)";
   setTimeout(() => {
     quoteText.textContent = `“${experienceData.messages[quoteIndex]}”`;
     quoteText.style.opacity = "1";
     quoteText.style.transform = "translateY(0)";
-  }, 160);
+  }, 170);
 }
 
 function updateRelationshipCounter() {
@@ -161,7 +187,7 @@ function createClickBurst(x, y) {
   burst.style.left = `${x}px`;
   burst.style.top = `${y}px`;
   document.body.appendChild(burst);
-  setTimeout(() => burst.remove(), 520);
+  setTimeout(() => burst.remove(), 560);
 }
 
 function attachInteractiveEffects() {
@@ -171,17 +197,17 @@ function attachInteractiveEffects() {
 
   cards.forEach((card) => {
     card.addEventListener("mousemove", (event) => {
-      if (window.innerWidth < 900) return;
+      if (window.innerWidth < 920) return;
       const rect = card.getBoundingClientRect();
       const px = (event.clientX - rect.left) / rect.width;
       const py = (event.clientY - rect.top) / rect.height;
-      const rotateY = (px - 0.5) * 4;
-      const rotateX = (0.5 - py) * 3;
-      card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      const rotateY = (px - 0.5) * 3.8;
+      const rotateX = (0.5 - py) * 2.6;
+      card.style.transform = `perspective(1500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     });
 
     card.addEventListener("mouseleave", () => {
-      card.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)";
+      card.style.transform = "perspective(1500px) rotateX(0deg) rotateY(0deg)";
     });
   });
 
@@ -207,7 +233,7 @@ nextButtons.forEach((btn) => {
 
 playButton.addEventListener("click", () => {
   if (!experienceData.music.audioSrc) {
-    playerHint.textContent = "Adicione seu arquivo em experienceData.music.audioSrc, por exemplo: musica.mp3";
+    playerHint.textContent = "Adicione seu arquivo local em experienceData.music.audioSrc (ex: musica.mp3).";
     return;
   }
 
@@ -234,6 +260,8 @@ restartButton.addEventListener("click", () => {
   goToScreen(0);
 });
 
+applyRandomTheme();
 renderExperience();
 updatePersonalizedTexts();
+animateScreenElements(screens[currentScreen]);
 attachInteractiveEffects();
