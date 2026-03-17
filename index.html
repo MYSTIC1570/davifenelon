@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nossa História ❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="aurora"></div>
+    <main class="app">
+      <section class="screen active" data-screen="entrada">
+        <div class="content card">
+          <p class="eyebrow">Um presente para você</p>
+          <h1 id="welcomeText">Amor, preparei algo especial para você ❤️</h1>
+          <p class="subtitle">Uma pequena jornada para reviver tudo que construímos.</p>
+          <label class="input-label" for="nameInput">Seu nome (opcional)</label>
+          <input id="nameInput" type="text" placeholder="Digite seu nome" />
+          <button class="btn" data-next>Entrar</button>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="musica">
+        <div class="content card">
+          <p class="eyebrow">Capítulo 1</p>
+          <h2>Nossa música</h2>
+          <article class="music-player">
+            <img
+              id="musicCover"
+              src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=700&q=80"
+              alt="Capa da música"
+            />
+            <div class="music-info">
+              <strong id="musicName">A nossa trilha do coração</strong>
+              <span id="musicArtist">Nossa história em forma de melodia</span>
+            </div>
+            <button id="playButton" class="circle-btn" aria-label="Tocar música">▶</button>
+          </article>
+          <audio id="audioPlayer" preload="none">
+            <source src="" type="audio/mpeg" />
+          </audio>
+          <p id="playerHint">Dica: adicione sua música no arquivo JS para tocar de verdade.</p>
+          <button class="btn" data-next>Próximo</button>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="timeline">
+        <div class="content card">
+          <p class="eyebrow">Capítulo 2</p>
+          <h2>Nossa Jornada</h2>
+          <div id="timelineList" class="timeline"></div>
+          <button class="btn" data-next>Próximo</button>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="mensagens">
+        <div class="content card">
+          <p class="eyebrow">Capítulo 3</p>
+          <h2>Palavras que guardo para você</h2>
+          <blockquote id="quoteText" class="quote"></blockquote>
+          <div class="row">
+            <button class="ghost-btn" id="prevQuote">Anterior</button>
+            <button class="ghost-btn" id="nextQuote">Próxima frase</button>
+          </div>
+          <button class="btn" data-next>Próximo</button>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="galeria">
+        <div class="content card">
+          <p class="eyebrow">Capítulo 4</p>
+          <h2>Memórias em fotos</h2>
+          <div id="galleryGrid" class="gallery"></div>
+          <button class="btn" data-next>Próximo</button>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="poetica">
+        <div class="content card poetic">
+          <p class="eyebrow">Capítulo 5</p>
+          <h2 id="poeticText">O universo conspirou para nos unir ✨</h2>
+          <p>E cada detalhe nos trouxe até este instante.</p>
+          <button class="btn" data-next>Continuar</button>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="final">
+        <div class="content card">
+          <p class="eyebrow">Capítulo final</p>
+          <h2 id="finalTitle">Obrigado por viver essa história comigo</h2>
+          <p id="finalMessage"></p>
+          <p class="days" id="daysTogether">Já estamos juntos há 0 dias ❤️</p>
+          <button class="btn" id="restartButton">Reviver jornada</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
