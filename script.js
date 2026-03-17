@@ -5,28 +5,27 @@ const experienceData = {
   music: {
     title: "Perfect",
     artist: "Ed Sheeran",
-    cover:
-      "https://images.unsplash.com/photo-1454922915609-78549ad709bb?auto=format&fit=crop&w=800&q=80",
+    // Coloque a capa da música localmente na raiz do projeto.
+    // Exemplo: capa-musica.jpeg
+    cover: "capa-musica.jpeg",
     audioSrc: ""
   },
   timeline: [
     {
       date: "14/02/2023",
       description: "Nosso primeiro encontro, com borboletas no estômago e sorrisos tímidos.",
-      photo:
-        "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=700&q=80"
+      // Use arquivos locais: img1.jpeg, img2.jpeg, img3.jpeg...
+      photo: "img1.jpeg"
     },
     {
       date: "30/04/2023",
       description: "A viagem de fim de semana que virou uma memória eterna.",
-      photo:
-        "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=700&q=80"
+      photo: "img2.jpeg"
     },
     {
       date: "25/12/2023",
       description: "Nosso primeiro natal juntos, cheio de carinho e planos para o futuro.",
-      photo:
-        "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=700&q=80"
+      photo: "img3.jpeg"
     }
   ],
   messages: [
@@ -37,18 +36,15 @@ const experienceData = {
   gallery: [
     {
       caption: "Nós dois em nosso lugar favorito",
-      photo:
-        "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=700&q=80"
+      photo: "img4.jpeg"
     },
     {
       caption: "Um pôr do sol, dois corações",
-      photo:
-        "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=700&q=80"
+      photo: "img5.jpeg"
     },
     {
       caption: "Rindo da vida juntos",
-      photo:
-        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=700&q=80"
+      photo: "img6.jpeg"
     }
   ],
   poeticText: "O universo conspirou para nos unir ✨",
@@ -99,7 +95,11 @@ function renderExperience() {
           <small>${item.date}</small>
           <p>${item.description}</p>
         </div>
-        ${item.photo ? `<img src="${item.photo}" alt="Momento de ${item.date}" />` : ""}
+        ${
+          item.photo
+            ? `<img src="${item.photo}" alt="Momento de ${item.date}" onerror="this.style.display='none'" />`
+            : ""
+        }
       </article>
     `
     )
@@ -110,7 +110,7 @@ function renderExperience() {
       const tilt = index % 2 === 0 ? "-1.5deg" : "1.8deg";
       return `
       <article class="photo-card" style="--tilt:${tilt}">
-        <img src="${item.photo}" alt="${item.caption}" />
+        <img src="${item.photo}" alt="${item.caption}" onerror="this.style.display='none'" />
         <p>${item.caption}</p>
       </article>
     `;
