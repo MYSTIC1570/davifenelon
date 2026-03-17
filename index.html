@@ -3,104 +3,105 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nossa História ❤️</title>
+    <title>Love Recap — Story Experience</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap"
       rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="aurora"></div>
-    <main class="app">
-      <section class="screen active" data-screen="entrada">
-        <div class="content card">
-          <p class="eyebrow">Um presente para você</p>
-          <h1 id="welcomeText">Amor, preparei algo especial para você ❤️</h1>
-          <p class="subtitle">Uma jornada nossa, com emoção em cada capítulo.</p>
-          <label class="input-label" for="nameInput">Seu nome (opcional)</label>
-          <input id="nameInput" type="text" placeholder="Digite seu nome" />
-          <button class="btn" data-next>Entrar</button>
+    <div class="bg-orbs" aria-hidden="true">
+      <span class="orb orb-a"></span>
+      <span class="orb orb-b"></span>
+      <span class="orb orb-c"></span>
+      <span class="grain"></span>
+    </div>
+
+    <header class="top-ui">
+      <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+      <p class="top-caption">Love Recap 2026</p>
+    </header>
+
+    <main id="storyApp" class="story-app">
+      <section class="story-screen active" data-screen="0">
+        <div class="screen-inner">
+          <p class="kicker">Seu recap emocional</p>
+          <h1 class="headline">Nossa história em ritmo de campanha ✨</h1>
+          <p class="support">Deslize, clique ou use setas para avançar.</p>
+          <button class="cta" data-next>Começar</button>
         </div>
       </section>
 
-      <section class="screen" data-screen="musica">
-        <div class="content card">
-          <p class="eyebrow">Capítulo 1</p>
-          <h2>Nossa música</h2>
-          <article class="music-player">
-            <img id="musicCover" src="capa-musica.jpeg" alt="Capa da música" />
-            <div class="music-info">
-              <strong id="musicName">A nossa trilha do coração</strong>
-              <span id="musicArtist">Nossa história em forma de melodia</span>
-            </div>
-            <button id="playButton" class="circle-btn" aria-label="Tocar música">▶</button>
-          </article>
-          <audio id="audioPlayer" preload="none">
-            <source src="" type="audio/mpeg" />
-          </audio>
-          <p id="playerHint">Dica: adicione sua música no arquivo JS para tocar de verdade.</p>
-          <button class="btn" data-next>Próximo</button>
+      <section class="story-screen" data-screen="1">
+        <div class="screen-inner">
+          <p class="kicker">Métrica principal</p>
+          <h2 class="headline">Minutos juntos este ano</h2>
+          <p class="mega-number" data-count="72876">0</p>
+          <p class="support">Top 1% dos casais mais conectados 💚</p>
+          <button class="cta" data-next>Próxima história</button>
         </div>
       </section>
 
-      <section class="screen" data-screen="timeline">
-        <div class="content card">
-          <p class="eyebrow">Capítulo 2</p>
-          <h2>Nossa Jornada</h2>
-          <div id="timelineList" class="timeline"></div>
-          <button class="btn" data-next>Próximo</button>
+      <section class="story-screen" data-screen="2">
+        <div class="screen-inner">
+          <p class="kicker">Momento auge</p>
+          <h2 class="headline">Nosso maior dia foi</h2>
+          <p class="mega-number">04 de Junho</p>
+          <p class="support">Foram <strong data-count="183">0</strong> minutos de conversa e risadas.</p>
+          <button class="cta" data-next>Ver ranking</button>
         </div>
       </section>
 
-      <section class="screen" data-screen="mensagens">
-        <div class="content card">
-          <p class="eyebrow">Capítulo 3</p>
-          <h2>Palavras que guardo para você</h2>
-          <blockquote id="quoteText" class="quote"></blockquote>
-          <div class="row">
-            <button class="ghost-btn" id="prevQuote">Anterior</button>
-            <button class="ghost-btn" id="nextQuote">Próxima frase</button>
+      <section class="story-screen" data-screen="3">
+        <div class="screen-inner">
+          <p class="kicker">Top 5 momentos</p>
+          <h2 class="headline">Nosso ranking sentimental</h2>
+          <ol class="top-list" id="topList"></ol>
+          <button class="cta" data-next>Ver gráfico</button>
+        </div>
+      </section>
+
+      <section class="story-screen" data-screen="4">
+        <div class="screen-inner">
+          <p class="kicker">Evolução do ano</p>
+          <h2 class="headline">Intensidade do nosso amor</h2>
+          <div class="chart" id="chartBars"></div>
+          <button class="cta" data-next>Ver categorias</button>
+        </div>
+      </section>
+
+      <section class="story-screen" data-screen="5">
+        <div class="screen-inner">
+          <p class="kicker">Vibe do relacionamento</p>
+          <h2 class="headline">Badges do nosso ano</h2>
+          <div class="badges" id="badgeList"></div>
+          <button class="cta" data-next>Resumo final</button>
+        </div>
+      </section>
+
+      <section class="story-screen" data-screen="6">
+        <div class="screen-inner share-card">
+          <p class="kicker">Resumo compartilhável</p>
+          <h2 class="headline">Você foi meu melhor capítulo em 2026</h2>
+          <p class="support">Juntos há <strong id="daysTogether">0</strong> dias. E isso é só o começo.</p>
+          <div class="share-grid">
+            <p><span data-count="72876">0</span> min juntos</p>
+            <p>Top dia: 04/06</p>
+            <p>5 momentos inesquecíveis</p>
+            <p>∞ planos para o próximo ano</p>
           </div>
-          <button class="btn" data-next>Próximo</button>
-        </div>
-      </section>
-
-      <section class="screen" data-screen="galeria">
-        <div class="content card">
-          <p class="eyebrow">Capítulo 4</p>
-          <h2>Memórias em fotos</h2>
-          <div id="galleryGrid" class="gallery"></div>
-          <button class="btn" data-next>Próximo</button>
-        </div>
-      </section>
-
-      <section class="screen" data-screen="poetica">
-        <div class="content card poetic">
-          <p class="eyebrow">Capítulo 5</p>
-          <h2 id="poeticText">O universo conspirou para nos unir ✨</h2>
-          <p>E cada detalhe nos trouxe até este instante.</p>
-          <button class="btn" data-next>Continuar</button>
-        </div>
-      </section>
-
-      <section class="screen" data-screen="final">
-        <div class="content card">
-          <p class="eyebrow">Capítulo final</p>
-          <h2 id="finalTitle">Obrigado por viver essa história comigo</h2>
-          <p id="finalMessage"></p>
-          <p class="days" id="daysTogether">Já estamos juntos há 0 dias ❤️</p>
-          <button class="btn" id="restartButton">Reviver jornada</button>
+          <div class="btn-row">
+            <button class="ghost" id="prevButton">Voltar</button>
+            <button class="cta" id="restartButton">Rever stories</button>
+          </div>
         </div>
       </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
