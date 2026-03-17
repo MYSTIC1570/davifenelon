@@ -501,20 +501,10 @@ const galleryImages=[
   {src:`img7.jpeg`,label:'Nosso momento 3'},
   {src:`img8.jpeg`,label:'Nosso momento 4'}
 ];
+
 const skyImages=[`img9.jpeg`,`img10.jpeg`,`img11.jpeg`,`img12.jpeg`];
-const journeyImages=[`img3.jpeg`,`img4.jpeg`];
-function applyImageFallback(img, fallbackLabel='Imagem não encontrada'){
-  img.addEventListener('error',()=>{
-    img.style.objectFit='contain';
-    img.style.background='#111';
-    img.alt=fallbackLabel;
-    if(!img.dataset.errorHandled){
-      img.dataset.errorHandled='1';
-      console.warn(`Arquivo não encontrado: ${img.currentSrc || img.src}`);
-    }
-  }, {once:true});
-}
-const sections=[...document.querySelectorAll('.section')],progressBar=document.getElementById('progressBar'),navDots=document.getElementById('navDots');
+
+const journeyImages=[`img3.jpeg`,`img4.jpeg`];const sections=[...document.querySelectorAll('.section')],progressBar=document.getElementById('progressBar'),navDots=document.getElementById('navDots');
 sections.forEach((sec,i)=>{const b=document.createElement('button');b.onclick=()=>sec.scrollIntoView({behavior:'smooth'});b.setAttribute('aria-label','Ir para seção '+(i+1));navDots.appendChild(b)});
 document.querySelectorAll('[data-next]').forEach(btn=>btn.addEventListener('click',()=>{const current=btn.closest('.section');const idx=sections.indexOf(current);sections[Math.min(idx+1,sections.length-1)].scrollIntoView({behavior:'smooth'})}));
 const io=new IntersectionObserver(entries=>{const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];entries.forEach(entry=>{if(entry.isIntersecting) entry.target.querySelector('.reveal')?.classList.add('in')});if(visible){const idx=sections.indexOf(visible.target);progressBar.style.width=((idx+1)/sections.length*100)+'%';[...navDots.children].forEach((d,i)=>d.classList.toggle('active',i===idx))}},{threshold:[.25,.55,.8]}); sections.forEach(s=>io.observe(s));
@@ -527,22 +517,22 @@ window.addEventListener('load',tryPlay);document.addEventListener('click',()=>{i
 document.getElementById('toggleAudio').addEventListener('click',async()=>{if(audio.paused) await tryPlay(); else audio.pause(); syncAudioBadge()});
 document.getElementById('toggleAudio2').addEventListener('click',async()=>{if(audio.paused) await tryPlay(); else audio.pause(); syncAudioBadge()});
 audio.addEventListener('play',syncAudioBadge);audio.addEventListener('pause',syncAudioBadge);
-const journeyBox=document.getElementById('journeyPhoto');[...journeyBox.querySelectorAll('img')].forEach((img,i)=>{applyImageFallback(img, `Foto da jornada ${i+1} não encontrada`);img.src=journeyImages[i]});
+const journeyBox=document.getElementById('journeyPhoto');[...journeyBox.querySelectorAll('img')].forEach((img,i)=>img.src=journeyImages[i]);
 const journeyBtns=[...document.querySelectorAll('[data-journey]')];
 function setJourney(index){[...journeyBox.querySelectorAll('img')].forEach((img,i)=>img.classList.toggle('active',i===index));journeyBtns.forEach((btn,i)=>btn.classList.toggle('active',i===index))}
 journeyBtns.forEach(btn=>btn.addEventListener('click',()=>setJourney(+btn.dataset.journey)));
 const gallery4=document.getElementById('gallery4');
 function renderGallery(active=0){gallery4.innerHTML='';
   const stage=document.createElement('div');stage.className='gStage';
-  galleryImages.forEach((item,i)=>{const slide=document.createElement('div');slide.className='gSlide'+(i===active?' active':'');slide.innerHTML=`<img src="${item.src}" alt="${item.label}"><div class="gCaption"><div class="gKicker">Galeria em movimento</div><div class="gTitle">${item.label}</div></div>`;const img=slide.querySelector('img');applyImageFallback(img, `${item.label} não encontrada`);stage.appendChild(slide)});
+  galleryImages.forEach((item,i)=>{const slide=document.createElement('div');slide.className='gSlide'+(i===active?' active':'');slide.innerHTML=`<img src="${item.src}" alt="${item.label}"><div class="gCaption"><div class="gKicker">Galeria em movimento</div><div class="gTitle">${item.label}</div></div>`;stage.appendChild(slide)});
   const thumbs=document.createElement('div');thumbs.className='gThumbs';
-  galleryImages.forEach((item,i)=>{const btn=document.createElement('button');btn.className='gThumb'+(i===active?' active':'');btn.type='button';btn.dataset.label=item.label;btn.innerHTML=`<img src="${item.src}" alt="${item.label}">`;const img=btn.querySelector('img');applyImageFallback(img, `${item.label} não encontrada`);btn.addEventListener('click',()=>renderGallery(i));thumbs.appendChild(btn)});
+  galleryImages.forEach((item,i)=>{const btn=document.createElement('button');btn.className='gThumb'+(i===active?' active':'');btn.type='button';btn.dataset.label=item.label;btn.innerHTML=`<img src="${item.src}" alt="${item.label}">`;btn.addEventListener('click',()=>renderGallery(i));thumbs.appendChild(btn)});
   gallery4.append(stage,thumbs)
 } renderGallery(0);
 const skyMain=document.getElementById('skyMain'),miniGrid=document.getElementById('miniGrid');
-[...skyMain.querySelectorAll('img')].forEach((img,i)=>{applyImageFallback(img, `Foto especial ${i+1} não encontrada`);img.src=skyImages[i]});
+[...skyMain.querySelectorAll('img')].forEach((img,i)=>img.src=skyImages[i]);
 function setSky(index){[...skyMain.querySelectorAll('img')].forEach((img,i)=>img.classList.toggle('active',i===index));[...miniGrid.querySelectorAll('.miniBtn')].forEach((b,i)=>b.classList.toggle('active',i===index))}
-skyImages.forEach((src,i)=>{const btn=document.createElement('button');btn.className='miniBtn'+(i===0?' active':'');btn.type='button';btn.innerHTML=`<img src="${src}" alt="Miniatura ${i+1}">`;const img=btn.querySelector('img');applyImageFallback(img, `Miniatura ${i+1} não encontrada`);btn.addEventListener('click',()=>setSky(i));miniGrid.appendChild(btn)});
+skyImages.forEach((src,i)=>{const btn=document.createElement('button');btn.className='miniBtn'+(i===0?' active':'');btn.type='button';btn.innerHTML=`<img src="${src}" alt="Miniatura ${i+1}">`;btn.addEventListener('click',()=>setSky(i));miniGrid.appendChild(btn)});
 const wheel=document.getElementById('wheel'),
 labels=['Zoológico','Jantar','Noite de filmes','Passeio','Noite de jogos','Shopping'],
 wheelColors=['#ff2d72','#4a8cff','#ffd54d','#8b5cf6','#ff9621','#29cf5f'];
